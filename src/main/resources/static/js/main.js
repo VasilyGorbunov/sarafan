@@ -1,22 +1,71 @@
 var messageApi = Vue.resource('/message/{id}')
 
-Vue.component('message-row', {
-    props: ['message'],
+Vue.component('message-form', {
+    props: ['messages', 'messageAttr'],
+    data: function() {
+        return {
+            text: ''
+        }
+    },
     template: `
-    <div><i>({{message.id}})</i> {{ message.text }}</div>
-    `
+<div>
+    <input type="text" placeholder="Write something" v-model="text"/>
+    <input type="button" value="Save" @click="save"/>   
+</div>
+    `,
+    methods: {
+        save: function() {
+            var message = { text: this.text };
+            messageApi.save({}, message)
+                .then(result => result.json())
+                .then(data => {
+                    this.messages.push(data)
+                })
+
+            this.text = ''
+        }
+    }
+})
+
+Vue.component('message-row', {
+    props: ['message', 'editMethod'],
+    template: `
+    <div>
+    <i>({{message.id}})</i> {{ message.text }}
+    &nbsp;<span>
+        <input type="button" value="Edit" @click="edit">
+    </span>
+    </div>
+    `,
+    methods: {
+        edit: function() {
+            this.editMethod(this.message)
+        }
+    }
 })
 
 Vue.component('messages-list', {
     props: ['messages'],
+    data: function() {
+       return {
+           message: null
+       }
+    },
     template: `
 <div>
-    <message-row v-for="message in messages" :message="message" :key="message.id">{{message.text}}</message-row>
+    <message-form :messages="messages" :messageAttr="message"/>
+    <hr/>
+    <message-row v-for="message in messages" :message="message" :key="message.id" :editMethod="editMethod"/>
 </div>`,
     created: function() {
         messageApi.get()
             .then(result => result.json())
             .then(data => data.forEach(message => this.messages.push(message)))
+    },
+    methods: {
+        editMessage: function () {
+            this.message = message
+        }
     }
 })
 
