@@ -26,6 +26,8 @@ dependencies {
 	implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '3.0.2'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.4'
 	implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.6.3'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.6.4'
+
 }
 
 tasks.named('test') {
