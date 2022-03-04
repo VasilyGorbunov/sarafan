@@ -111,7 +111,11 @@ var app = new Vue({
     template: `
         <div>
             <div v-if="!profile">Login <a href="/login">Google</a></div>
-            <messages-list v-else :messages="messages"/>
+            <div v-else>
+                <div style="margin-bottom: 2rem;">{{ profile.name }}&nbsp;<a href="/logout">Logout</a></div>
+                <messages-list :messages="messages"/>
+            </div>
+            
         </div> 
     `,
     data: {

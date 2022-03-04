@@ -1,6 +1,8 @@
 package letscode.sarafan.controller;
 
 import letscode.sarafan.domain.User;
+import letscode.sarafan.repo.IMessageRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,12 @@ import java.util.HashMap;
 @Controller
 @RequestMapping("/")
 public class MainController {
+  private final IMessageRepo messageRepo;
+
+  @Autowired
+  public MainController(IMessageRepo messageRepo) {
+    this.messageRepo = messageRepo;
+  }
 
   @GetMapping
   public String main(
@@ -21,7 +29,7 @@ public class MainController {
 
     HashMap<Object, Object> data = new HashMap<>();
     data.put("profile", user);
-    data.put("messages", null);
+    data.put("messages", messageRepo.findAll());
 
     model.addAttribute("frontendData", data);
 
