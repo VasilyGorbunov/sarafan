@@ -1,7 +1,11 @@
 <template>
     <div>
-        <input type="text" placeholder="Write something" v-model="text"/>
-        <input type="button" value="Save" @click="save"/>
+        <v-text-field
+                label="New message"
+                placeholder="Write something"
+                v-model="text"
+        />
+        <v-btn @click="save">Save</v-btn>
     </div>
 </template>
 
