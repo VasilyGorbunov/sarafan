@@ -6,15 +6,9 @@
 </template>
 
 <script>
-    function getIndex(list, id) {
-        for(let i = 0; i < list.length; i++) {
-            if(list[i].id === id) {
-                return i
-            }
-        }
+    import {sendMessage} from "../../util/ws";
 
-        return -1
-    }
+
 
     export default {
         name: "MessageForm",
@@ -33,7 +27,11 @@
         },
         methods: {
             save () {
-                const message = {text: this.text};
+                sendMessage({id: this.id, text: this.text})
+                this.text = ''
+                this.id = ''
+
+                /*const message = {text: this.text};
                 if (this.id) {
                     this.$resource('/message/{id}').update({id: this.id}, message)
                         .then(result => result.json())
@@ -50,7 +48,7 @@
                             this.messages.push(data)
                             this.text = ''
                         })
-                }
+                }*/
 
             }
         }
